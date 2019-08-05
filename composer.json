@@ -1,0 +1,26 @@
+{
+  "name": "pti/pti-twig",
+  "description": "Prototype Integration Twig integration",
+  "keywords": ["typo3", "extension", "composer.json"],
+  "authors": [
+    {
+      "name": "Hannes Lau",
+      "email": "office@hanneslau.de"
+    }
+  ],
+  "license": "GPL-2.0+",
+  "type": "typo3-cms-extension",
+  "require": {
+    "pti/pti": "*",
+  	"typo3/cms-core": "^9.5"
+  },
+  "replace": {
+    "pti/pti-twig": "self.version",
+    "typo3-ter/pti-twig": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "PrototypeIntegration\\Twig\\": "Classes/"
+    }
+  }
+}
