@@ -11,7 +11,8 @@
   "license": "GPL-2.0+",
   "type": "typo3-cms-extension",
   "require": {
-    "pti/pti": "*",
+	"pti/pti": "*",
+	"twig/twig": "^2.0",
   	"typo3/cms-core": "^9.5"
   },
   "replace": {
