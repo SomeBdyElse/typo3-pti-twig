@@ -59,7 +59,7 @@ class TwigEnvironment extends Environment implements SingletonInterface
     protected function getAdditionalLoaders(): array
     {
         $loaderClasses = $this->configuration['loader'] ?: [];
-        $loader = array_map(function(string $loaderClass) {
+        $loader = array_map(function (string $loaderClass) {
             return GeneralUtility::makeInstance($loaderClass);
         }, $loaderClasses);
 
@@ -71,7 +71,10 @@ class TwigEnvironment extends Environment implements SingletonInterface
      */
     protected function getTemplateStoragePath()
     {
-        $rootTemplatePath = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('pti_twig', 'rootTemplatePath');
+        $rootTemplatePath = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
+            'pti_twig',
+            'rootTemplatePath'
+        );
         if (!isset($rootTemplatePath)) {
             return null;
         }
