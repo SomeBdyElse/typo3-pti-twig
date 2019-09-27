@@ -7,6 +7,8 @@ use Twig\Extension\DebugExtension;
 use Twig\Loader\ChainLoader;
 use Twig\Loader\FilesystemLoader;
 use Twig\Loader\LoaderInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -28,8 +30,20 @@ class TwigEnvironment extends Environment implements SingletonInterface
         $typo3Loader = GeneralUtility::makeInstance(Typo3Loader::class);
         $loader->addLoader($typo3Loader);
 
-        if ($storagePath = $this->getTemplateStoragePath()) {
-            $loader->addLoader(new FilesystemLoader($storagePath));
+        $storagePath = $this->getTemplateStoragePath();
+        $namespaces = $this->getNamespaces();
+
+        if (! empty($storagePath) || ! empty($namespaces)) {
+            $fileSystemLoader = new FilesystemLoader();
+            if (! empty($storagePath)) {
+                $fileSystemLoader->addPath($storagePath);
+            }
+
+            foreach($namespaces as $namespace => $path) {
+                $fileSystemLoader->addPath($path, $namespace);
+            }
+
+            $loader->addLoader($fileSystemLoader);
         }
 
         parent::__construct($loader, [
@@ -80,5 +94,26 @@ class TwigEnvironment extends Environment implements SingletonInterface
         }
 
         return GeneralUtility::getFileAbsFileName($rootTemplatePath);
+    }
+
+    protected function getNamespaces()
+    {
+        try {
+            $namespaces = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
+                'pti_twig',
+                'namespaces'
+            );
+        } catch (ExtensionConfigurationExtensionNotConfiguredException $e) {
+            return [];
+        } catch (ExtensionConfigurationPathDoesNotExistException $e) {
+            return [];
+        }
+
+        $namespaces = array_map(
+            '\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName',
+            $namespaces
+        );
+
+        return $namespaces;
     }
 }
