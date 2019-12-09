@@ -64,7 +64,7 @@ class TwigEnvironment extends Environment implements SingletonInterface
      */
     public static function getCacheDirectory(): string
     {
-        return PATH_site.'typo3temp/var/Cache/Code/twig';
+        return \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/code/twig/';
     }
 
     /**
