@@ -1,5 +1,6 @@
 <?php
-defined('TYPO3_MODE') || die();
+
+defined('TYPO3') or die();
 
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['pti_twig']['disableCache'] = false;
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['pti_twig']['rootTemplatePath'] = '';

@@ -1,22 +1,18 @@
 <?php
+
 namespace PrototypeIntegration\Twig;
 
-use PrototypeIntegration\PrototypeIntegration\View\TemplateBasedView;
+use PrototypeIntegration\PrototypeIntegration\View\PtiViewInterface;
+use PrototypeIntegration\PrototypeIntegration\View\TemplateBasedViewInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\View\AbstractView;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
-class TwigView extends AbstractView implements ViewInterface, TemplateBasedView
+class TwigView implements PtiViewInterface, TemplateBasedViewInterface
 {
-    /**
-     * @var TwigEnvironment
-     */
-    protected $twigEnvironment;
+    protected TwigEnvironment $twigEnvironment;
 
-    /**
-     * @var string
-     */
-    protected $template;
+    protected string $template;
+
+    protected array $variables = [];
 
     public function __construct(string $template = '')
     {
@@ -37,33 +33,21 @@ class TwigView extends AbstractView implements ViewInterface, TemplateBasedView
         }
     }
 
-    /**
-     * @return string
-     */
     public function getTemplate(): string
     {
         return $this->template;
     }
 
-    /**
-     * @param string $template
-     */
     public function setTemplate(string $template): void
     {
         $this->template = $template;
     }
 
-    /**
-     * @return array
-     */
     public function getVariables(): array
     {
         return $this->variables;
     }
 
-    /**
-     * @param array $variables
-     */
     public function setVariables(array $variables): void
     {
         $this->variables = $variables;
