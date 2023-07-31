@@ -15,10 +15,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TwigEnvironment extends Environment implements SingletonInterface
 {
-    /**
-     * @var array
-     */
-    protected $configuration;
+    protected array $configuration;
 
     public function __construct()
     {
@@ -39,7 +36,7 @@ class TwigEnvironment extends Environment implements SingletonInterface
                 $fileSystemLoader->addPath($storagePath);
             }
 
-            foreach($namespaces as $namespace => $path) {
+            foreach ($namespaces as $namespace => $path) {
                 $fileSystemLoader->addPath($path, $namespace);
             }
 
@@ -48,7 +45,7 @@ class TwigEnvironment extends Environment implements SingletonInterface
 
         parent::__construct($loader, [
             // fixme use TYPO3’s cache framework instead of filesystem for caching
-            'cache' => $this->configuration['disableCache']? false : static::getCacheDirectory(),
+            'cache' => $this->configuration['disableCache'] ? false : static::getCacheDirectory(),
             'debug' => $GLOBALS['TYPO3_CONF_VARS']['FE']['debug'],
         ]);
 
@@ -59,8 +56,6 @@ class TwigEnvironment extends Environment implements SingletonInterface
 
     /**
      * Returns the path to the twig cache directory.
-     *
-     * @return string
      */
     public static function getCacheDirectory(): string
     {
@@ -80,10 +75,7 @@ class TwigEnvironment extends Environment implements SingletonInterface
         return $loader;
     }
 
-    /**
-     * @return string/null
-     */
-    protected function getTemplateStoragePath()
+    protected function getTemplateStoragePath(): ?string
     {
         $rootTemplatePath = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
             'pti_twig',
@@ -96,7 +88,7 @@ class TwigEnvironment extends Environment implements SingletonInterface
         return GeneralUtility::getFileAbsFileName($rootTemplatePath);
     }
 
-    protected function getNamespaces()
+    protected function getNamespaces(): array
     {
         try {
             $namespaces = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
