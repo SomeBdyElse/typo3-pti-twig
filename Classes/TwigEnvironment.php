@@ -44,22 +44,13 @@ class TwigEnvironment extends Environment implements SingletonInterface
         }
 
         parent::__construct($loader, [
-            // fixme use TYPO3’s cache framework instead of filesystem for caching
-            'cache' => $this->configuration['disableCache'] ? false : static::getCacheDirectory(),
+            'cache' => $this->configuration['disableCache'] ? false : GeneralUtility::makeInstance(TwigCache::class),
             'debug' => $GLOBALS['TYPO3_CONF_VARS']['FE']['debug'],
         ]);
 
         if ($this->isDebug()) {
             $this->addExtension(new DebugExtension());
         }
-    }
-
-    /**
-     * Returns the path to the twig cache directory.
-     */
-    public static function getCacheDirectory(): string
-    {
-        return \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/code/twig/';
     }
 
     /**
