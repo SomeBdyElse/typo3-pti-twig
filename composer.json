@@ -11,7 +11,7 @@
   "require": {
     "php": "^8.2",
     "pti/pti": "^5.0",
-    "twig/twig": "^2.0",
+    "twig/twig": "^3.27.0",
     "typo3/cms-core": "^13.4.0"
   },
   "autoload": {
